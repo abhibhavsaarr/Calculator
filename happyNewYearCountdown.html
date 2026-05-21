@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown</title>
+</head>
+<body>
+
+    <marquee behavior="" direction="">
+    <p  id="demo1" style="display: none;">Happy New Year!</p>
+    </marquee>
+    <p id="demo2"></p>
+
+    <script>
+       
+        let reset= setInterval(myFunction,1000);
+
+        let countFrom=10;
+        function myFunction(){
+            clear=document.getElementById("demo2")
+             document.getElementById("demo2").innerHTML=countFrom;
+            countFrom--;
+            if(countFrom===-1){
+                clearInterval(reset);
+              clear.style.display="none";
+            }
+             setTimeout(myFunction1,10000);
+
+        function myFunction1(){
+           document.getElementById("demo1").style.display="block";
+
+        }
+
+         }
+
+        
+    </script>
+
+    
+</body>
+</html>
