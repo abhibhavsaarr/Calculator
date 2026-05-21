@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Safe Calculator</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #eee;
+      font-family: Arial, sans-serif;
+    }
+
+    .calculator {
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+      width: 260px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .display {
+      background: black;
+      color: #0f0;
+      font-size: 28px;
+      height: 60px;
+      text-align: right;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      height: 50px;
+      font-size: 18px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #444;
+      color: white;
+    }
+
+    button:hover { background: #666; }
+
+    .op { background: orange; color: black; }
+    .danger { background: red; }
+    .equal { background: #00aaff; grid-column: span 2; }
+  </style>
+</head>
+<body>
+
+<div class="calculator">
+  <div id="display" class="display">0</div>
+
+  <div class="buttons">
+    <button class="danger" onclick="clearAll()">AC</button>
+    <button class="danger" onclick="deleteLast()">DEL</button>
+    <button class="op" onclick="appendValue('/')">÷</button>
+    <button class="op" onclick="appendValue('*')">×</button>
+
+    <button onclick="appendValue('7')">7</button>
+    <button onclick="appendValue('8')">8</button>
+    <button onclick="appendValue('9')">9</button>
+    <button class="op" onclick="appendValue('-')">−</button>
+
+    <button onclick="appendValue('4')">4</button>
+    <button onclick="appendValue('5')">5</button>
+    <button onclick="appendValue('6')">6</button>
+    <button class="op" onclick="appendValue('+')">+</button>
+
+    <button onclick="appendValue('1')">1</button>
+    <button onclick="appendValue('2')">2</button>
+    <button onclick="appendValue('3')">3</button>
+    <button class="equal" onclick="calculate()">=</button>
+
+    <button onclick="appendValue('0')">0</button>
+    <button onclick="appendValue('.')">.</button>
+  </div>
+</div>
+
+<script>
+  let display = document.getElementById("display");
+
+  // Add numbers/operators to display
+  function appendValue(value) {
+    let text = display.innerText;
+
+    if (text === "0") {
+      display.innerText = value;
+    } else {
+      display.innerText += value;
+    }
+  }
+
+  // Clear everything
+  function clearAll() {
+    display.innerText = "0";
+  }
+
+  // Delete last character
+  function deleteLast() {
+    let text = display.innerText;
+
+    if (text.length === 1) {
+      display.innerText = "0";
+    } else {
+      display.innerText = text.slice(0, -1);
+    }
+  }
+
+  // Main calculation (NO eval)
+  function calculate() {
+    try {
+      let expr = display.innerText;
+
+      let tokens = tokenize(expr);
+      let result = evaluateTokens(tokens);
+
+      display.innerText = result;
+    } catch (e) {
+      display.innerText = "Error";
+    }
+  }
+
+  // Step 1: Convert string into tokens
+  // Example: "12+3*4" → [12, "+", 3, "*", 4]
+  function tokenize(expr) {
+    let tokens = [];
+    let num = "";
+
+    for (let ch of expr) {
+      if ("0123456789.".includes(ch)) {
+        num += ch;
+      } else if ("+-*/".includes(ch)) {
+        tokens.push(parseFloat(num));
+        tokens.push(ch);
+        num = "";
+      }
+    }
+
+    tokens.push(parseFloat(num));
+    return tokens;
+    // This sends the finished tokens array back to the place
+    // where tokenize() was called.
+  }
+
+  // S Evaluate tokens
+  function evaluateTokens(tokens) {
+    // First pass: handle * and /
+    let stack = [tokens[0]];
+
+    for (let i = 1; i < tokens.length; i += 2) {
+      let op = tokens[i];
+      let nextNum = tokens[i + 1];
+
+      if (op === "*") {
+        stack[stack.length - 1] *= nextNum;
+      } else if (op === "/") {
+        if (nextNum === 0) return "Error";
+        stack[stack.length - 1] /= nextNum;
+      } else {
+        stack.push(op);
+        stack.push(nextNum);
+      }
+    }
+
+    // Second pass: handle + and -
+    let result = stack[0];
+
+    for (let i = 1; i < stack.length; i += 2) {
+      let op = stack[i];
+      let nextNum = stack[i + 1];
+
+      if (op === "+") result += nextNum;
+      else if (op === "-") result -= nextNum;
+    }
+
+    return result;
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+/* .tabledata,th,td{
+    border: 2px solid black;
+    border-collapse: collapse;
+} */
+
+.calci1{
+    /* When we take margin in a 'div'for eg. margin-left:500px then from left towards right, 500px
+    distance is displaced then that 'div' comes at there*/
+    margin: 50px 510px 0px 500px;
+    /* width: 490px; */
+
+    /* And When we take padding in a 'div'for eg. padding-left:500px then from left towards right, 500px
+    distance is displaced then next content comes at there*/ 
+    padding: 20px;
+    background-color: gray;
+    border-radius: 18px;
+}
+
+.calci2{
+    /* padding: 0px 00px 0px 150px; */
+    /* ***Note-Take same margin in two 'div' which one under another for empty box */
+    /* margin: 50px 510px 100px 500px; */
+
+    background-color: dimgray;
+    border-radius:12px;
+    border:2px solid black;
+    overflow:hidden;
+    display: flex;
+    justify-content: end;
+
+    
+}
+
+.buttondiv button{
+    display: grid;
+    padding: 20px 45px 20px 45px;
+    background-color: gray;
+    color: white;
+    border-radius: 5px;
+    /* border-style: hidden; */
+}
+
+
+.buttondiv button:hover{
+      background-color: red;
+      
+}
+
+.trh1{
+     height: 60px;
+    font-size: 30px; 
+    /* border: 1px solid red; */
+
+}
+
+.trh2{
+    height: 60px;
+    font-size: 50px;
+   /* border: 1px solid blue;    */
+}
+
+
+
+
+

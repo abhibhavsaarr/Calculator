@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Calculator</title>
+
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f2f2f2;
+      font-family: Arial, sans-serif;
+    }
+
+    .calci1 {
+      background: #222;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      width: 260px;
+    }
+
+    .display {
+      background: #000;
+      color: #0f0;
+      font-size: 32px;
+      height: 60px;
+      text-align: right;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      height: 50px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #444;
+      color: white;
+    }
+
+    button:hover {
+      background: #666;
+    }
+
+    .op {
+      background: orange;
+      color: black;
+    }
+
+    .op:hover {
+      background: #ffb347;
+    }
+
+    .danger {
+      background: red;
+    }
+
+    .danger:hover {
+      background: #ff4d4d;
+    }
+
+    .equal {
+      background: #00aaff;
+      grid-column: span 2;
+    }
+
+    .equal:hover {
+      background: #33bbff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calci1">
+    <div id="display" class="display">0</div>
+
+    <div class="buttons">
+      <button class="danger" onclick="clearAll()">AC</button>
+      <button class="danger" onclick="deleteLast()">DEL</button>
+      <button class="op" onclick="appendValue('/')">/</button>
+      <button class="op" onclick="appendValue('*')">×</button>
+
+      <button onclick="appendValue('7')">7</button>
+      <button onclick="appendValue('8')">8</button>
+      <button onclick="appendValue('9')">9</button>
+      <button class="op" onclick="appendValue('-')">-</button>
+
+      <button onclick="appendValue('4')">4</button>
+      <button onclick="appendValue('5')">5</button>
+      <button onclick="appendValue('6')">6</button>
+      <button class="op" onclick="appendValue('+')">+</button>
+
+      <button onclick="appendValue('1')">1</button>
+      <button onclick="appendValue('2')">2</button>
+      <button onclick="appendValue('3')">3</button>
+      <button class="equal" onclick="calculate()">=</button>
+
+      <button onclick="appendValue('0')">0</button>
+      <button onclick="appendValue('.')">.</button>
+      <button onclick="appendValue('%')">%</button>
+    </div>
+  </div>
+
+  <script>
+    let display = document.getElementById("display");
+
+    function appendValue(value) {
+      if (display.innerText === "0") {
+        display.innerText = value;
+      } else {
+        display.innerText += value;
+        // display.innerText is always a string
+        // string + string → concat
+        // string + number → concat
+        // number + number → add
+      }
+    }
+
+    function clearAll() {
+      display.innerText = "0";
+    }
+
+    function deleteLast() {
+      if (display.innerText.length === 1) {
+        display.innerText = "0";
+      } else {
+        display.innerText = display.innerText.slice(0, -1);
+      }
+    }
+
+    function calculate() {
+      try {
+        let expression = display.innerText.replace(/×/g, "*");
+        let result = eval(expression);
+        display.innerText = result;
+      } catch (e) {
+        display.innerText = "Error";
+      }
+    }
+  </script>
+
+</body>
+</html>
